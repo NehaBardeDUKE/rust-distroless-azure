@@ -40,10 +40,7 @@ async fn tokenize_text(pretrained_model: String, text: String) -> Vec<String> {
 }
 
 #[post("tokenizers/{pretrained_model}")]
-async fn tokenize(
-    pretrained_model: web::Path<String>,
-    text: web::Json<Text>,
-) -> impl Responder {
+async fn tokenize(pretrained_model: web::Path<String>, text: web::Json<Text>) -> impl Responder {
     let pretrained_model = pretrained_model.into_inner();
     let tokenized_values = tokenize_text(pretrained_model, text.text.clone()).await;
 
@@ -52,7 +49,6 @@ async fn tokenize(
         tokens: tokenized_values,
     })
 }
-
 
 #[get("/")]
 async fn index() -> impl Responder {
